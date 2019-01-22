@@ -1,0 +1,86 @@
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "io.franzbecker:gradle-lombok:1.14"
+        classpath "me.champeau.gradle:jmh-gradle-plugin:0.4.8"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'io.franzbecker.gradle-lombok'
+apply plugin: 'me.champeau.gradle.jmh'
+
+group 'club.elasticsearch.learning'
+version '0.0.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+// Third-party Component dependencies Management
+ext {
+    var = [
+            junit  : '4.12',
+            log4j2 : '2.11.1',
+            guava  : '26.0-jre',
+            jackson: '2.9.6'
+    ]
+}
+dependencies {
+    testCompile "junit:junit:$var.junit"
+
+    // Apache logj42 dependencies
+    compile "org.apache.logging.log4j:log4j-core:$var.log4j2"
+    compile "org.apache.logging.log4j:log4j-api:$var.log4j2"
+    compile "org.apache.logging.log4j:log4j-jcl:$var.log4j2"
+    compile "org.apache.logging.log4j:log4j-jul:$var.log4j2"
+    compile "org.apache.logging.log4j:log4j-1.2-api:$var.log4j2"
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:$var.log4j2"
+
+    // Fasterxml Jackson dependencies
+    compile "com.fasterxml.jackson.core:jackson-core:$var.jackson"
+    compile "com.fasterxml.jackson.core:jackson-annotations:$var.jackson"
+    compile "com.fasterxml.jackson.core:jackson-databind:$var.jackson"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$var.jackson"
+    compile "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$var.jackson"
+
+    // Google guava dependencies
+    compile "com.google.guava:guava:$var.guava"
+
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
+
+javadoc {
+    options.addStringOption("charset", "UTF-8")
+    options.encoding = "UTF-8"
+}
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}

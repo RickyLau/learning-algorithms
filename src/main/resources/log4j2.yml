@@ -1,0 +1,36 @@
+Configuration:
+  name: learning-algorithms
+  status: warn
+  monitorInterval: 10
+  appenders:
+    Console:
+      name: console
+      PatternLayout:
+        Pattern: "%d{HH:mm:ss.SSS} %-5level %class{36} %M %L %msg%xEx%n"
+      thresholdFilter:
+        level: debug
+        onMatch: ACCEPT
+        onMismatch: DENY
+    RollingFile:
+      name: rolling
+      fileName: build\logs\learning-algorithms.log
+      filePattern: build\logs\learning-algorithms-%d{yyyy-MM-dd-HH}_%i.log
+      append: true
+      bufferedIO: false
+      bufferSize: 0
+      immediateFlush: true
+      PatternLayout:
+        Pattern: "%d{HH:mm:ss.SSS} %-5level %class{36} %M %L %msg%xEx%n"
+      Policies:
+        OnStartupTriggeringPolicy:
+          minSize: 1
+        SizeBasedTriggeringPolicy:
+          size: 100MB
+      DefaultRolloverStrategy:
+        max: 6
+  Loggers:
+    Root:
+      level: DEBUG
+      AppenderRef:
+        ref: console
+        level: DEBUG
